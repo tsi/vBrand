@@ -1,0 +1,26 @@
+
+////////////////////////////////////////////////
+//              Typography Rules
+////////////////////////////////////////////////
+
+@import url(http://fonts.googleapis.com/css?family=Open+Sans);
+
+// Global
+body {
+  font: normal 16px/1.6 "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: #555;
+  @include background-image(radial-gradient(800px 800px, #fff, #EBE2DA));
+}
+
+// Links
+a,
+a:link,
+a:visited {
+  text-decoration: none;
+  color: #E56700;
+  @include transition(color .4s);
+  &:hover {
+    color: #ff9d4c;
+  }
+}
+

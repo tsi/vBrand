@@ -1,0 +1,123 @@
+
+///////////////////////////////////////////////////
+//    SASS & Compass generic helper mixins
+//    These are not project specific
+///////////////////////////////////////////////////
+
+// Hide only visually, but have it available for screenreaders: h5bp.com/v
+%visuallyhidden {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+}
+
+@mixin ir($img, $width: image-width($img), $height: image-height($img), $x: 50%, $y: 50%) {
+  background: {
+    image: image-url($img);
+    repeat: no-repeat;
+    position: $x $y;
+  };
+  width: $width;
+  height: $height;
+  text-indent: $width;
+  overflow: hidden;
+  white-space: nowrap;
+  display: block;
+}
+
+@mixin pseudo-icon($element, $img, $valign: false) {
+  &:#{$element} {
+    content: image-url($img);
+    @include size($img);
+    @if ($valign) {
+      display: inline-block;
+      vertical-align: $valign;
+    }
+  }
+}
+
+@mixin before-icon($img, $valign: false) {
+  @include pseudo-icon(before, $img, $valign);
+}
+
+@mixin after-icon($img, $valign: false) {
+  @include pseudo-icon(after, $img, $valign);
+}
+
+@mixin before-overlay {
+  position: relative;
+  &:before {
+    content: " ";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: black;
+    opacity: .5;
+    @include transition(opacity .3s);
+  }
+}
+
+@mixin tooltip(
+  $dir: top,
+  $pos: 50%,
+  $color1: #fff,
+  $color2: darken($color1, 30%),
+  $size1: 6px,
+  $size2: $size1
+) {
+  @include tip($dir, $pos, $color1, $color2, $size1, $size2);
+  margin-top: $size1;
+  background: $color1;
+  @include pie-border-radius($size1, false);
+  @include pie-box-shadow(3px 1px 10px rgba(#000, .2));
+  position: absolute;
+  border: 1px solid $color2;
+  z-index: 9;
+}
+
+@mixin tip(
+  $dir: top,
+  $pos: 50%,
+  $color1: #fff,
+  $color2: darken($color1, 30%),
+  $size1: 6px,
+  $size2: $size1
+) {
+  $opos: opposite-position($dir);
+  $transparent: if($dir == left or $dir == right, (top, bottom), (left, right));
+  &:before,
+  &:after {
+    #{nth($transparent, 1)}: $pos;
+
+    height: 0;
+    width: 0;
+    display: block;
+    content: " ";
+    position: absolute;
+  }
+  &:before {
+    border-#{nth($transparent, 1)}: #{$size2 + 1} solid transparent;
+    border-#{nth($transparent, 2)}: #{$size2 + 1} solid transparent;
+    border-#{$opos}: #{$size1 + 1} solid $color2;
+    margin-#{nth($transparent, 1)}: -1 - $size2;
+    #{$dir}: -1 - $size1;
+  }
+  &:after {
+    border-#{nth($transparent, 1)}: $size2 solid transparent;
+    border-#{nth($transparent, 2)}: $size2 solid transparent;
+    border-#{$opos}: $size1 solid $color1;
+    margin-#{nth($transparent, 1)}: - $size2;
+    #{$dir}: - $size1;
+  }
+}
+
+@mixin stupid-ie-z-index-fix-with-background {
+  background: url( data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw== );
+}

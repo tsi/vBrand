@@ -1,0 +1,15 @@
+{
+  "name": "vBrand",
+  "version": "0.1.1",
+  "description": "vBrand",
+  "devDependencies": {
+    "gulp": "^3.8.0",
+    "gulp-watch": "*",
+    "gulp-compass": "*",
+    "gulp-notify": "^1.4.2",
+    "gulp-util": "^3.0.0",
+    "require-dir": "^0.1.0",
+    "vinyl-source-stream": "~0.1.1",
+    "watchify": "~0.10.1"
+  }
+}

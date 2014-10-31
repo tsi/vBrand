@@ -1,0 +1,128 @@
+
+///////////////////////////////////////////////////
+//                   Layout
+///////////////////////////////////////////////////
+
+$flow: left !default;
+$opos: opposite-position($flow);
+
+// Beat That ClearFix!
+// http://www.css-101.org/articles/clearfix/latest-new-clearfix-so-far.php
+@mixin clear {
+  &:after {
+    content:"";
+    display:table;
+    clear:both;
+  }
+}
+
+// Fluid images.
+@mixin fluid-image {
+  img {
+    height: auto;
+    max-width: 100%;
+    html.ie8 & {
+      width: auto;
+    }
+  }
+}
+
+// Salsa style layout.
+@mixin layout($width, $position: false) {
+
+  @include box-sizing(border-box);
+
+  // Width (fraction/units)
+  @if unitless($width) == false { // arbitrary width
+    width: $width;
+  }
+  @else if round($width) != $width { // fraction
+    width: 100% * $width;
+  }
+  @else { // unit (px/%/em etc.)
+    width: $width;
+  }
+
+  // Position (omega/row/fraction/columns/units)
+  @if $position != omega {
+    float: $flow; // normal float
+  }
+  @if $position == omega { // omega
+    float: $opos;
+  }
+
+  @else if $position == row { // row
+    clear: both;
+  }
+  @else if $position {
+    margin: {
+      #{$opos}: -100%;
+      @if unitless($width) == false { // has unit, arbitrary width
+        #{$flow}: $position;
+      }
+      @else if round($position) != $position { // fraction
+        #{$flow}: $position * 100%;
+      }
+      @else if unitless($position) { // columns
+        #{$flow}: $position * 100% / $columns;
+      }
+      @else { // fallback
+        #{$flow}: $position;
+      }
+    }
+  }
+}
+
+// Inline block grid.
+@mixin layout-ib($width, $valign: top) {
+  @include inline-block($valign);
+  width: $width;
+  margin-right: -0.25em;
+  @include box-sizing(border-box);
+}
+
+// Justified grid layout.
+%layout-justify {
+  text-align: justify;
+  > * {
+    display: inline-block;
+    vertical-align: top;
+  }
+  &:after{
+    content: '';
+    width: 100%;
+    display: inline-block;
+  }
+}
+
+// Size - by unit or by image dimensions.
+@mixin size($x, $y: $x) {
+  @if type_of($x) == string {
+    width: image-width($x);
+  } @else {
+    width: $x;
+  }
+  @if type_of($y) == string {
+    height: image-height($y);
+  } @else {
+    height: $y;
+  }
+}
+
+// Center.
+@mixin vertical-center($sel: div, $horizontal: true, $elememnt: 'after') {
+  @if $horizontal {
+    text-align: center;
+  }
+  &:#{$elememnt} {
+    content: '';
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+    font-size: 0;
+  }
+  #{$sel} {
+    display: inline-block;
+    vertical-align: middle;
+  }
+}
