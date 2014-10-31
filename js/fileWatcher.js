@@ -23,6 +23,9 @@
   // You can call watch() multiple times
   $(document).ready(function() {
     $(document).watch('css/style.css');
+    $(document).watch('css/vbrand.css');
+    $(document).watch('js/vBrandQueue.js');
+    // $(document).watch('index.html');
   });
 
   $.fn.extend({

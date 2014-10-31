@@ -13,7 +13,8 @@ var paths = {
 
 gulp.task('watch', function() {
   // gulp.watch(paths.pages, ['fileinclude']);
-  gulp.watch(paths.scss, ['compass','images']);
+  gulp.watch(paths.scss, ['compass']);
+  // gulp.watch(paths.scss, ['compass','images']);
   // gulp.watch(paths.images, ['images']);
   // gulp.watch(paths.scripts, ['concat']);
 });

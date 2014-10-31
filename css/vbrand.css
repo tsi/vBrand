@@ -1,0 +1,102 @@
+@charset "UTF-8";
+.vbrand-container {
+  position: relative;
+}
+
+.vbrand-queue {
+  position: absolute;
+  top: 0;
+  right: 0;
+  text-align: right;
+  direction: rtl;
+}
+
+.vbrand-item {
+  position: relative;
+  display: block;
+  width: 100px;
+  height: 60px;
+  border: 3px solid #fff;
+  color: #000;
+  text-align: center;
+  direction: ltr;
+  margin: 10px;
+  overflow: hidden;
+  -moz-box-shadow: 0 0 10px black;
+  -webkit-box-shadow: 0 0 10px black;
+  box-shadow: 0 0 10px black;
+  -moz-border-radius: 0;
+  -webkit-border-radius: 0;
+  border-radius: 0;
+  -moz-background-clip: padding;
+  -o-background-clip: padding-box;
+  -webkit-background-clip: padding;
+  background-clip: padding-box;
+  -moz-transition: all 0.3s;
+  -o-transition: all 0.3s;
+  -webkit-transition: all 0.3s;
+  transition: all 0.3s;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  -webkit-background-size: cover;
+  background-size: cover;
+}
+.vbrand-item .title {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 18px;
+  background: rgba(255, 255, 255, 0.6);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 11px;
+  padding-top: 3px;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  -moz-transition: all 0.3s;
+  -o-transition: all 0.3s;
+  -webkit-transition: all 0.3s;
+  transition: all 0.3s;
+}
+.vbrand-item .sponsored {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: rgba(255, 255, 255, 0.6);
+  font-size: 10px;
+  padding: 1px 2px;
+}
+.vbrand-item:hover, .vbrand-item.active {
+  width: 120px;
+  height: 120px;
+  -moz-border-radius: 60px 0 60px 60px;
+  -webkit-border-radius: 60px;
+  border-radius: 60px 0 60px 60px;
+}
+.vbrand-item:hover .title, .vbrand-item.active .title {
+  height: 40px;
+  padding-top: 10px;
+}
+.vbrand-item:after {
+  content: "▶";
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-top: -8.5px;
+  margin-left: -8.5px;
+  font-size: 11px;
+  text-align: center;
+  border: 1px solid #fff;
+  color: #555;
+  height: 17px;
+  width: 17px;
+  line-height: 17px;
+  background: rgba(255, 255, 255, 0.6);
+  -moz-border-radius: 10px;
+  -webkit-border-radius: 10px;
+  border-radius: 10px;
+}

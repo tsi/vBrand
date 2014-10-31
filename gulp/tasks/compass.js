@@ -4,7 +4,7 @@ var compass = require('gulp-compass');
 var handleErrors = require('./handleErrors');
 
 gulp.task('compass', function () {
-  gulp.src('sass/style.scss')
+  gulp.src('sass/*.scss')
   .pipe(compass({
     config_file: './config.rb',
     sass: 'sass',
