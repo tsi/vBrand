@@ -5,10 +5,13 @@
 
 .vbrand-queue {
   position: absolute;
+  width: 140px;
   top: 0;
   right: 0;
+  bottom: 0;
   text-align: right;
   direction: rtl;
+  overflow: hidden;
 }
 
 .vbrand-item {
@@ -16,11 +19,12 @@
   display: block;
   width: 100px;
   height: 60px;
-  border: 3px solid #fff;
+  border: 2px solid #fff;
   color: #000;
+  right: 0;
   text-align: center;
   direction: ltr;
-  margin: 10px;
+  margin: 10px 10px 0 0;
   overflow: hidden;
   -moz-box-shadow: 0 0 10px black;
   -webkit-box-shadow: 0 0 10px black;
@@ -40,6 +44,9 @@
   -o-background-size: cover;
   -webkit-background-size: cover;
   background-size: cover;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
 }
 .vbrand-item .title {
   position: absolute;
@@ -61,24 +68,94 @@
   -webkit-transition: all 0.3s;
   transition: all 0.3s;
 }
-.vbrand-item .sponsored {
+.vbrand-item .sponsored,
+.vbrand-item .later {
   position: absolute;
   top: 0;
   right: 0;
   background: rgba(255, 255, 255, 0.6);
   font-size: 10px;
   padding: 1px 2px;
+  text-align: center;
 }
-.vbrand-item:hover, .vbrand-item.active {
+.vbrand-item .later {
+  display: none;
+}
+.vbrand-item .later:hover {
+  background: #fff;
+}
+.vbrand-item.outside {
+  right: -150px;
+}
+.vbrand-item.icon {
+  opacity: .7;
+  width: 40px;
+  height: 40px;
+  right: 0;
+  -moz-border-radius: 40px 0 40px 40px;
+  -webkit-border-radius: 40px;
+  border-radius: 40px 0 40px 40px;
+}
+.vbrand-item.icon .title {
+  bottom: -100%;
+}
+.vbrand-item.icon:before {
+  content: "";
+  background: #f1c40f;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  -moz-transition: all 0.2s;
+  -o-transition: all 0.2s;
+  -webkit-transition: all 0.2s;
+  transition: all 0.2s;
+}
+.vbrand-item.watch-later {
+  -moz-box-shadow: none;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  width: 40px;
+  height: 40px;
+  -moz-border-radius: 40px 0 40px 40px;
+  -webkit-border-radius: 40px;
+  border-radius: 40px 0 40px 40px;
+}
+.vbrand-item.watch-later .later {
+  display: block;
+  height: 100%;
+  width: 100%;
+  background: #fff;
+  padding: 8px 0 0;
+}
+.vbrand-item.watch-later .sponsored {
+  display: none;
+}
+.vbrand-item.watch-later:before, .vbrand-item.watch-later:after {
+  display: none;
+}
+.vbrand-item.active {
+  opacity: 1;
   width: 120px;
   height: 120px;
-  -moz-border-radius: 60px 0 60px 60px;
-  -webkit-border-radius: 60px;
-  border-radius: 60px 0 60px 60px;
+  -moz-border-radius: 120px 0 120px 120px;
+  -webkit-border-radius: 120px;
+  border-radius: 120px 0 120px 120px;
 }
-.vbrand-item:hover .title, .vbrand-item.active .title {
+.vbrand-item.active .title {
   height: 40px;
   padding-top: 10px;
+  bottom: 0;
+}
+.vbrand-item.active .sponsored {
+  display: none;
+}
+.vbrand-item.active .later {
+  display: block;
+}
+.vbrand-item.active:before {
+  left: 100%;
 }
 .vbrand-item:after {
   content: "▶";

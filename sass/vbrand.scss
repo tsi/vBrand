@@ -1,16 +1,22 @@
 
 @import "compass";
 
+$item-size: 120px;
+$item-margin: 10px;
+
 .vbrand-container {
   position: relative;
 }
 
 .vbrand-queue {
   position: absolute;
+  width: $item-size + (2* $item-margin);
   top: 0;
   right: 0;
+  bottom: 0;
   text-align: right;
   direction: rtl;
+  overflow: hidden;
 }
 
 .vbrand-item {
@@ -18,17 +24,19 @@
   display: block;
   width: 100px;
   height: 60px;
-  border: 3px solid #fff;
+  border: 2px solid #fff;
   color: #000;
+  right: 0;
   text-align: center;
   direction: ltr;
-  margin: 10px;
+  margin: $item-margin $item-margin 0 0;
   overflow: hidden;
   @include box-shadow(0 0 10px #000); // multiple: comma-delimited
   @include border-radius(0);
   @include background-clip(padding-box);
   @include transition(all .3s);
   @include background-size(cover);
+  @include box-sizing(border-box);
   .title {
     position: absolute;
     left: 0;
@@ -44,22 +52,83 @@
     @include box-sizing(border-box);
     @include transition(all .3s);
   }
-  .sponsored {
+  .sponsored,
+  .later {
     position: absolute;
     top: 0;
     right: 0;
     background: rgba(#fff, .6);
     font-size: 10px;
-    padding: 1px 2px
+    padding: 1px 2px;
+    text-align: center;
   }
-  &:hover,
+  .later {
+    display: none;
+    &:hover {
+      background: #fff;
+    }
+  }
+  &.outside {
+    right: -150px;
+  }
+  &.icon {
+    opacity: .7;
+    width: 40px;
+    height: 40px;
+    right: 0;
+    @include border-radius(40px 0 40px 40px);
+    .title {
+      bottom: -100%;
+    }
+    &:before {
+      content: "";
+      background: #f1c40f;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      @include transition(all .2s);
+    }
+  }
+  &.watch-later {
+    @include box-shadow(none);
+    width: 40px;
+    height: 40px;
+    @include border-radius(40px 0 40px 40px);
+    .later {
+      display: block;
+      height: 100%;
+      width: 100%;
+      background: #fff;
+      padding: 8px 0 0;
+    }
+    .sponsored {
+      display: none;
+    }
+    &:before,
+    &:after {
+      display: none;
+    }
+  }
   &.active {
-    width: 120px;
-    height: 120px;
-    @include border-radius(60px 0 60px 60px);
+    opacity: 1;
+    width: $item-size;
+    height: $item-size;
+    @include border-radius($item-size 0 $item-size $item-size);
     .title {
       height: 40px;
       padding-top: 10px;
+      bottom: 0;
+    }
+    .sponsored {
+      display: none;
+    }
+    .later {
+      display: block;
+    }
+    &:before {
+      left: 100%;
     }
   }
   &:after {
