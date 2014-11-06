@@ -10,16 +10,19 @@ $item-margin: 10px;
 
 .vbrand-queue {
   position: absolute;
-  width: $item-size + (2* $item-margin);
+  // width: $item-size + (2* $item-margin);
+  width: 100%;
   top: 0;
   right: 0;
   bottom: 0;
   text-align: right;
   direction: rtl;
   overflow: hidden;
+  pointer-events: none;
 }
 
 .vbrand-item {
+  pointer-events: all;
   position: relative;
   display: block;
   width: 100px;
@@ -34,7 +37,7 @@ $item-margin: 10px;
   @include box-shadow(0 0 10px #000); // multiple: comma-delimited
   @include border-radius(0);
   @include background-clip(padding-box);
-  @include transition(all .3s);
+  @include transition(all .5s);
   @include background-size(cover);
   @include box-sizing(border-box);
   .title {
@@ -50,7 +53,7 @@ $item-margin: 10px;
     font-size: 11px;
     padding-top: 3px;
     @include box-sizing(border-box);
-    @include transition(all .3s);
+    @include transition(all .5s);
   }
   .sponsored,
   .later {
@@ -72,7 +75,7 @@ $item-margin: 10px;
     right: -150px;
   }
   &.icon {
-    opacity: .7;
+    opacity: .8;
     width: 40px;
     height: 40px;
     right: 0;
@@ -82,7 +85,8 @@ $item-margin: 10px;
     }
     &:before {
       content: "";
-      background: #f1c40f;
+      /*background: #F49213;*/
+      background: #595959;
       position: absolute;
       top: 0;
       left: 0;
@@ -102,14 +106,33 @@ $item-margin: 10px;
       width: 100%;
       background: #fff;
       padding: 8px 0 0;
+      top: -8px;
     }
-    .sponsored {
-      display: none;
+    &.wlq-open {
+      position: relative;
+      display: inline;
+      width: 100px;
+      height: 60px;
+      border: 2px solid #fff;
+      color: #000;
+      right: 100px;
+      text-align: center;
+      direction: ltr;
+      margin: 10px 10px 0 0;
+      overflow: hidden;
+      border-radius:0px;
+      .later {
+        display: none;
+      }
     }
     &:before,
     &:after {
       display: none;
     }
+  }
+  &.watch-later .sponsored,
+  &.icon .sponsored {
+    display: none;
   }
   &.active {
     opacity: 1;
@@ -132,7 +155,7 @@ $item-margin: 10px;
     }
   }
   &:after {
-    $after-width: 17px;
+    $after-width: 22px;
     content: "▶";
     display: block;
     position: absolute;
@@ -140,7 +163,9 @@ $item-margin: 10px;
     left: 50%;
     margin-top: -0.5 * $after-width;
     margin-left: -0.5 * $after-width;
-    font-size: 11px;
+    // margin-top: 0;
+    // margin-left: 0;
+    font-size: 13px;
     text-align: center;
     border: 1px solid #fff;
     color: #555;
@@ -148,6 +173,7 @@ $item-margin: 10px;
     width: $after-width;
     line-height: $after-width;
     background: rgba(#fff, .6);
-    @include border-radius(10px);
+    @include border-radius(20px);
+    @include box-sizing(border-box);
   }
 }

@@ -5,16 +5,18 @@
 
 .vbrand-queue {
   position: absolute;
-  width: 140px;
+  width: 100%;
   top: 0;
   right: 0;
   bottom: 0;
   text-align: right;
   direction: rtl;
   overflow: hidden;
+  pointer-events: none;
 }
 
 .vbrand-item {
+  pointer-events: all;
   position: relative;
   display: block;
   width: 100px;
@@ -36,10 +38,10 @@
   -o-background-clip: padding-box;
   -webkit-background-clip: padding;
   background-clip: padding-box;
-  -moz-transition: all 0.3s;
-  -o-transition: all 0.3s;
-  -webkit-transition: all 0.3s;
-  transition: all 0.3s;
+  -moz-transition: all 0.5s;
+  -o-transition: all 0.5s;
+  -webkit-transition: all 0.5s;
+  transition: all 0.5s;
   -moz-background-size: cover;
   -o-background-size: cover;
   -webkit-background-size: cover;
@@ -63,10 +65,10 @@
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
-  -moz-transition: all 0.3s;
-  -o-transition: all 0.3s;
-  -webkit-transition: all 0.3s;
-  transition: all 0.3s;
+  -moz-transition: all 0.5s;
+  -o-transition: all 0.5s;
+  -webkit-transition: all 0.5s;
+  transition: all 0.5s;
 }
 .vbrand-item .sponsored,
 .vbrand-item .later {
@@ -88,7 +90,7 @@
   right: -150px;
 }
 .vbrand-item.icon {
-  opacity: .7;
+  opacity: .8;
   width: 40px;
   height: 40px;
   right: 0;
@@ -101,7 +103,8 @@
 }
 .vbrand-item.icon:before {
   content: "";
-  background: #f1c40f;
+  /*background: #F49213;*/
+  background: #595959;
   position: absolute;
   top: 0;
   left: 0;
@@ -128,11 +131,29 @@
   width: 100%;
   background: #fff;
   padding: 8px 0 0;
+  top: -8px;
 }
-.vbrand-item.watch-later .sponsored {
+.vbrand-item.watch-later.wlq-open {
+  position: relative;
+  display: inline;
+  width: 100px;
+  height: 60px;
+  border: 2px solid #fff;
+  color: #000;
+  right: 100px;
+  text-align: center;
+  direction: ltr;
+  margin: 10px 10px 0 0;
+  overflow: hidden;
+  border-radius: 0px;
+}
+.vbrand-item.watch-later.wlq-open .later {
   display: none;
 }
 .vbrand-item.watch-later:before, .vbrand-item.watch-later:after {
+  display: none;
+}
+.vbrand-item.watch-later .sponsored, .vbrand-item.icon .sponsored {
   display: none;
 }
 .vbrand-item.active {
@@ -163,17 +184,20 @@
   position: absolute;
   top: 50%;
   left: 50%;
-  margin-top: -8.5px;
-  margin-left: -8.5px;
-  font-size: 11px;
+  margin-top: -11px;
+  margin-left: -11px;
+  font-size: 13px;
   text-align: center;
   border: 1px solid #fff;
   color: #555;
-  height: 17px;
-  width: 17px;
-  line-height: 17px;
+  height: 22px;
+  width: 22px;
+  line-height: 22px;
   background: rgba(255, 255, 255, 0.6);
-  -moz-border-radius: 10px;
-  -webkit-border-radius: 10px;
-  border-radius: 10px;
+  -moz-border-radius: 20px;
+  -webkit-border-radius: 20px;
+  border-radius: 20px;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
 }

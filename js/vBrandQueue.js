@@ -1,12 +1,16 @@
+var opts = {};
+var mouseOver = false;
+var mouseOverWatch = false;
+var minimizedstate = true;
+var minimizedWatchstate = true;
+var player
 ;(function($){
-
-  var opts = {};
 
   $.extend($.fn, {
     vBrandQueue: function(settings) {
       // Set up defaults
       var defaults = {
-        container: '.vbrand-container',
+        container: '#player_a',
         data: $.parseJSON(getJsonData())
       };
 
@@ -16,13 +20,16 @@
       // Wrapper
       var queue = $('<div />', {'class': "vbrand-queue"}).appendTo(opts.container);
 
+      // Container
+      $(opts.container).addClass('vbrand-container');
+
       // Create items
       $(opts.data.VideoQueue).each(function() {
         $(this).vBrandQueueItem().appendTo(queue);
       });
 
       // Icon
-      $('.vbrand-item')
+      $('.inqueue')
         .first()
         .removeClass('outside')
         .addClass('icon');
@@ -30,16 +37,26 @@
       // Active
       $('.vbrand-item')
         .mouseenter(function() {
-          $(this).vBrandHover();
+          $(this).vBrandHoverDrop();
+      $('.inqueue').removeClass('outside'); //making sure all drops ares inside
+      mouseOver = true;
         });
-      $('.vbrand-queue')
-        .mouseleave(function() {
-          $(this).find('.vbrand-item.active').removeClass('active');
+
+      $('.inqueue').mouseleave(function() {
+      $(this).removeClass('active');
+      $('.inqueue').first().removeClass('icon').addClass('active');
+      setTimeout(function() {if (!mouseOver) {$(this).minimizeDrop();} }, 2000);
+      mouseOver = false;
+      if(minimizedstate) {
+        $('.inqueue').removeClass('active').addClass('outside');
+        $('.inqueue').first().addClass('icon').removeClass('outside');
+      }
         });
 
       // Watch later
       $('.later').click(function(e) {
         e.preventDefault();
+        e.stopPropagation();
         $(this).closest('.vbrand-item').vBrandWatchLater();
       });
 
@@ -49,15 +66,17 @@
     vBrandQueueItem: function() {
       var item = this[0];
       var queueItem = $('<a />', {
-        'class': "vbrand-item outside vbrand-item" + item.id,
-        'href': item.url,
-        'style': "background-image: url('" + item.image_url + "')"
+        'class': "vbrand-item inqueue outside vbrand-item" + item.id,
+        //'href': item.url,
+        'style': "background-image: url('" + item.image_url + "')",
+    'contenturl': item.url
       });
       $('<span />', {'class': "title"})
         .text(item.title)
         .appendTo(queueItem);
-      $('<span />', {'class': "later"})
-        .text("Watch later")
+      //$('<span />', {'class': "later"})
+      $('<img class="later" src="http://d1fnuwuy1vks2k.cloudfront.net/media/watchlater.png" height="25" width="25">', {'class': "later"})
+        //.text("Watch later")
         .appendTo(queueItem);
       // Sponsored
       if (item.type == 'sponsored') {
@@ -69,7 +88,7 @@
     },
 
     // Handle state changes on hover.
-    vBrandHover: function() {
+    vBrandHoverDrop: function() {
       if ($(this).is('.icon')) {
         // Initial state - bring in all items.
         $(this)
@@ -90,10 +109,35 @@
           .siblings('.active')
           .removeClass('active');
       }
+    minimizedstate=false;
     },
-
+  OpenDrop: function() {
+    if(minimizedWatchstate){ // open only if watch-later queue is close
+      $('.inqueue').first().removeClass('outside').removeClass('icon');
+      minimizedstate=false;
+      if(!mouseOver) {$('.inqueue').first().addClass('active');}
+    }
+  },
+  CloseDrop: function() {
+    if(!mouseOver) {
+      $('.inqueue').removeClass('active').addClass('outside');
+      $('.inqueue').first().addClass('icon').removeClass('outside');
+    }
+    minimizedstate=true;
+  },
+  // Watch later handler.
+    minimizeDrop: function() {
+    if ($('.inqueue').first().is('.icon')) {
+      // already minimized
+    }else{
+      $('.inqueue').addClass('outside');
+      $('.inqueue').first().addClass('icon').removeClass('active');
+      //$('.inqueue').first().removeClass('outside').addClass('icon');
+    }
+  },
     // Watch later handler.
     vBrandWatchLater: function() {
+    $(this).removeClass('inqueue');
       var item = $(this),
           pos = item.position(),
           wrp = $('<div />').width(item.width()).height(item.outerHeight(true))
@@ -107,6 +151,7 @@
 
       item
         .unbind('mouseenter')
+        .unbind('mouseleave')
         .wrap(wrp)
         .css({
           "position": "absolute",
@@ -120,12 +165,23 @@
             .addClass('watch-later')
             .unbind('click')
             .click(function() {
-              alert('Opening the watch later queue...')
+        if (!mouseOver) {$(this).minimizeDrop();}
+        $('.watch-later.wlq-close').addClass('wlq-open').removeClass('wlq-close');
+        mouseOverWatch=true;
+        minimizedWatchstate=false;
+        $('.inqueue').minimizeDrop();
             });
+      if (minimizedWatchstate) {$(this).addClass('wlq-close')} else {$(this).addClass('wlq-open')}
         })
         .parent().animate({
           "height": 0
-        }, 400);
+        }, 400)
+    .mouseleave(function() { // open watchlater queue
+      setTimeout(function() {
+        if (!mouseOverWatch){
+          $('.wlq-open').addClass('wlq-close').removeClass('wlq-open');minimizedWatchstate=true;}}, 2000);
+      mouseOverWatch=false;
+    });
     }
 
   });
@@ -134,16 +190,16 @@
   // Modify it to get it from where the live JSON will come from.
   // Otherwise you can pass a data object in the settings object.
   var getJsonData = function() {
-    return '{"VideoQueue":[{"id":1,"image_url":"https://i.ytimg.com/vi/RHpbjkLzSlc/mqdefault.jpg","url":"https://www.youtube.com/watch?v=RHpbjkLzSlc","title":"Makeup Show","type":"content"},{"id":2,"image_url":"https://i.ytimg.com/vi/RHpbjkLzSlc/mqdefault.jpg","url":"https://www.youtube.com/watch?v=RHpbjkLzSlc","title":"Makeup Show","type":"sponsored"},{"id":3,"image_url":"https://i.ytimg.com/vi/RHpbjkLzSlc/mqdefault.jpg","url":"https://www.youtube.com/watch?v=RHpbjkLzSlc","title":"Makeup Show","type":"content"}],"SeenVideos":[{"id":1,"image_url":"https://i.ytimg.com/vi/RHpbjkLzSlc/mqdefault.jpg","url":"https://www.youtube.com/watch?v=RHpbjkLzSlc","title":"Makeup Show","type":"content"},{"id":2,"image_url":"https://i.ytimg.com/vi/RHpbjkLzSlc/mqdefault.jpg","url":"https://www.youtube.com/watch?v=RHpbjkLzSlc","title":"Makeup Show","type":"content"}],"WatchLater":[{"id":1,"image_url":"https://i.ytimg.com/vi/RHpbjkLzSlc/mqdefault.jpg","url":"https://www.youtube.com/watch?v=RHpbjkLzSlc","title":"Makeup Show","type":"content"},{"id":2,"image_url":"https://i.ytimg.com/vi/RHpbjkLzSlc/mqdefault.jpg","url":"https://www.youtube.com/watch?v=RHpbjkLzSlc","title":"Makeup Show","type":"content"}]    }';
+    return '{"VideoQueue":[{"id":1,"image_url":"http://d1fnuwuy1vks2k.cloudfront.net/media/robot_assist.png","url":"https://www.youtube.com/watch?v=EIRjZERkmZs","title":"Flight tips","type":"content"},{"id":2,"image_url":"//d1fnuwuy1vks2k.cloudfront.net/media/virgin.jpg","url":"https://www.youtube.com/watch?v=DtyfiPIHsIg","title":"Coolest Safety V..","type":"sponsored"},{"id":3,"image_url":"https://i.ytimg.com/vi/OYe8MlRg2Ss/default.jpg","url":"https://www.youtube.com/watch?v=OYe8MlRg2Ss","title":"Airport services","type":"content"}],"SeenVideos":[{"id":1,"image_url":"https://i.ytimg.com/vi/RHpbjkLzSlc/mqdefault.jpg","url":"http://vjs.zencdn.net/v/oceans.mp4mp4","title":"Makeup Show","type":"content"},{"id":2,"image_url":"https://i.ytimg.com/vi/RHpbjkLzSlc/mqdefault.jpg","url":"http://vjs.zencdn.net/v/oceans.mp4","title":"Makeup Show","type":"content"}],"WatchLater":[{"id":1,"image_url":"https://i.ytimg.com/vi/RHpbjkLzSlc/mqdefault.jpg","url":"http://vjs.zencdn.net/v/oceans.mp4","title":"Makeup Show","type":"content"},{"id":2,"image_url":"https://i.ytimg.com/vi/RHpbjkLzSlc/mqdefault.jpg","url":"http://vjs.zencdn.net/v/oceans.mp4","title":"Makeup Show","type":"content"}]    }';
   };
 
   // Call the plugin on page load.
   // Remove if you want to call it manually.
   $(document).ready(function() {
-    $('vbrand-container').vBrandQueue();
+    //$('#player_a').vBrandQueue();
 
     // You may also pass in a settings object.
-    // $('vbrand-container').vBrandQueue({
+    // $('#player_a').vBrandQueue({
     //   container: SELECTOR,
     //   data: DATA OBJECT
     // });
