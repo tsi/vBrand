@@ -17,6 +17,8 @@
  *
  */
 
+
+ 
 (function($) {
 
   // Modify the path to the watched file
@@ -25,7 +27,9 @@
     $(document).watch('css/style.css');
     $(document).watch('css/vbrand.css');
     $(document).watch('js/vBrandQueue.js');
-    // $(document).watch('index.html');
+    $(document).watch('index.html');
+	$(document).watch('work.html');
+	$(document).watch('VB-videojs.js');
   });
 
   $.fn.extend({
