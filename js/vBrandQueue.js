@@ -10,9 +10,10 @@ var player
     vBrandQueue: function(settings) {
       // Set up defaults
       var defaults = {
-        container: '#player_a',
+        container: this,
         data: $.parseJSON(getJsonData())
       };
+
 
       // Overwrite default options with user provided ones.
       opts = $.extend({}, defaults, settings);
@@ -21,37 +22,50 @@ var player
       var queue = $('<div />', {'class': "vbrand-queue"}).appendTo(opts.container);
 
       // Container
-      $(opts.container).addClass('vbrand-container');
+      $(opts.container)
+        .addClass('vbrand-container');
 
       // Create items
       $(opts.data.VideoQueue).each(function() {
         $(this).vBrandQueueItem().appendTo(queue);
       });
 
-      // Icon
-      $('.inqueue')
-        .first()
-        .removeClass('outside')
-        .addClass('icon');
+      queue.jScrollPane();
+      var jsp = queue.data('jsp');
+
+      setTimeout(function() {
+        // Icon
+        $('.inqueue')
+          .first()
+          .removeClass('outside')
+          .addClass('icon');
+      }, 1000);
 
       // Active
-      $('.vbrand-item')
-        .mouseenter(function() {
-          $(this).vBrandHoverDrop();
-      $('.inqueue').removeClass('outside'); //making sure all drops ares inside
-      mouseOver = true;
-        });
+      $('.vbrand-item').mouseenter(function() {
+        $(this).vBrandHoverDrop();
+        $('.inqueue').removeClass('outside'); //making sure all drops ares inside
+        mouseOver = true;
+      });
 
       $('.inqueue').mouseleave(function() {
-      $(this).removeClass('active');
-      $('.inqueue').first().removeClass('icon').addClass('active');
-      setTimeout(function() {if (!mouseOver) {$(this).minimizeDrop();} }, 2000);
-      mouseOver = false;
-      if(minimizedstate) {
-        $('.inqueue').removeClass('active').addClass('outside');
-        $('.inqueue').first().addClass('icon').removeClass('outside');
-      }
-        });
+        $(this).removeClass('active');
+      });
+
+      queue.mouseleave(function() {
+        $('.inqueue').removeClass('active');
+        setTimeout(function() {
+          if (!mouseOver) {
+            $(this).minimizeDrop();
+            jsp.scrollToY(0, true);
+          }
+        }, 2000);
+        mouseOver = false;
+        if(minimizedstate) {
+          $('.inqueue').removeClass('active').addClass('outside');
+          $('.inqueue').first().addClass('icon').removeClass('outside');
+        }
+      });
 
       // Watch later
       $('.later').click(function(e) {
@@ -190,19 +204,18 @@ var player
   // Modify it to get it from where the live JSON will come from.
   // Otherwise you can pass a data object in the settings object.
   var getJsonData = function() {
-    return '{"VideoQueue":[{"id":1,"image_url":"http://d1fnuwuy1vks2k.cloudfront.net/media/robot_assist.png","url":"https://www.youtube.com/watch?v=EIRjZERkmZs","title":"Flight tips","type":"content"},{"id":2,"image_url":"//d1fnuwuy1vks2k.cloudfront.net/media/virgin.jpg","url":"https://www.youtube.com/watch?v=DtyfiPIHsIg","title":"Coolest Safety V..","type":"sponsored"},{"id":3,"image_url":"https://i.ytimg.com/vi/OYe8MlRg2Ss/default.jpg","url":"https://www.youtube.com/watch?v=OYe8MlRg2Ss","title":"Airport services","type":"content"}],"SeenVideos":[{"id":1,"image_url":"https://i.ytimg.com/vi/RHpbjkLzSlc/mqdefault.jpg","url":"http://vjs.zencdn.net/v/oceans.mp4mp4","title":"Makeup Show","type":"content"},{"id":2,"image_url":"https://i.ytimg.com/vi/RHpbjkLzSlc/mqdefault.jpg","url":"http://vjs.zencdn.net/v/oceans.mp4","title":"Makeup Show","type":"content"}],"WatchLater":[{"id":1,"image_url":"https://i.ytimg.com/vi/RHpbjkLzSlc/mqdefault.jpg","url":"http://vjs.zencdn.net/v/oceans.mp4","title":"Makeup Show","type":"content"},{"id":2,"image_url":"https://i.ytimg.com/vi/RHpbjkLzSlc/mqdefault.jpg","url":"http://vjs.zencdn.net/v/oceans.mp4","title":"Makeup Show","type":"content"}]    }';
+    return '{"VideoQueue":[{"id":1,"image_url":"http://d1fnuwuy1vks2k.cloudfront.net/media/robot_assist.png","url":"https://www.youtube.com/watch?v=EIRjZERkmZs","title":"Flight tips","type":"content"},{"id":2,"image_url":"//d1fnuwuy1vks2k.cloudfront.net/media/virgin.jpg","url":"https://www.youtube.com/watch?v=DtyfiPIHsIg","title":"Coolest Safety V..","type":"sponsored"},{"id":3,"image_url":"https://i.ytimg.com/vi/OYe8MlRg2Ss/default.jpg","url":"https://www.youtube.com/watch?v=OYe8MlRg2Ss","title":"Airport services","type":"content"},{"id":4,"image_url":"https://i.ytimg.com/vi/OYe8MlRg2Ss/default.jpg","url":"https://www.youtube.com/watch?v=OYe8MlRg2Ss","title":"Airport services","type":"content"},{"id":5,"image_url":"https://i.ytimg.com/vi/OYe8MlRg2Ss/default.jpg","url":"https://www.youtube.com/watch?v=OYe8MlRg2Ss","title":"Airport services","type":"content"},{"id":6,"image_url":"https://i.ytimg.com/vi/OYe8MlRg2Ss/default.jpg","url":"https://www.youtube.com/watch?v=OYe8MlRg2Ss","title":"Airport services","type":"content"},{"id":7,"image_url":"https://i.ytimg.com/vi/OYe8MlRg2Ss/default.jpg","url":"https://www.youtube.com/watch?v=OYe8MlRg2Ss","title":"Airport services","type":"content"},{"id":8,"image_url":"https://i.ytimg.com/vi/OYe8MlRg2Ss/default.jpg","url":"https://www.youtube.com/watch?v=OYe8MlRg2Ss","title":"Airport services","type":"content"}],"SeenVideos":[{"id":1,"image_url":"https://i.ytimg.com/vi/RHpbjkLzSlc/mqdefault.jpg","url":"http://vjs.zencdn.net/v/oceans.mp4mp4","title":"Makeup Show","type":"content"},{"id":2,"image_url":"https://i.ytimg.com/vi/RHpbjkLzSlc/mqdefault.jpg","url":"http://vjs.zencdn.net/v/oceans.mp4","title":"Makeup Show","type":"content"}],"WatchLater":[{"id":1,"image_url":"https://i.ytimg.com/vi/RHpbjkLzSlc/mqdefault.jpg","url":"http://vjs.zencdn.net/v/oceans.mp4","title":"Makeup Show","type":"content"},{"id":2,"image_url":"https://i.ytimg.com/vi/RHpbjkLzSlc/mqdefault.jpg","url":"http://vjs.zencdn.net/v/oceans.mp4","title":"Makeup Show","type":"content"}]    }';
   };
 
   // Call the plugin on page load.
-  // Remove if you want to call it manually.
-  $(document).ready(function() {
-    //$('#player_a').vBrandQueue();
 
-    // You may also pass in a settings object.
-    // $('#player_a').vBrandQueue({
-    //   container: SELECTOR,
-    //   data: DATA OBJECT
-    // });
-  });
+  // $(document).ready(function() {
+  //   $('#player_a').vBrandQueue();
+
+  //   You may also pass in a settings object.
+  //   $('#player_a').vBrandQueue({
+  //     data: DATA JSON OBJECT
+  //   });
+  // });
 
 })(jQuery);

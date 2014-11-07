@@ -1,22 +1,22 @@
 @charset "UTF-8";
 .vbrand-container {
   position: relative;
+  overflow: hidden;
 }
 
 .vbrand-queue {
   position: absolute;
-  width: 100%;
+  width: 140px;
+  height: 100%;
   top: 0;
   right: 0;
   bottom: 0;
   text-align: right;
   direction: rtl;
-  overflow: hidden;
-  pointer-events: none;
+  padding-bottom: 100px;
 }
 
 .vbrand-item {
-  pointer-events: all;
   position: relative;
   display: block;
   width: 100px;
@@ -87,13 +87,13 @@
   background: #fff;
 }
 .vbrand-item.outside {
-  right: -150px;
+  margin-right: -150px;
 }
 .vbrand-item.icon {
   opacity: .8;
   width: 40px;
   height: 40px;
-  right: 0;
+  margin-right: 10px;
   -moz-border-radius: 40px 0 40px 40px;
   -webkit-border-radius: 40px;
   border-radius: 40px 0 40px 40px;
@@ -169,10 +169,10 @@
   padding-top: 10px;
   bottom: 0;
 }
-.vbrand-item.active .sponsored {
+.vbrand-item.active:hover .sponsored {
   display: none;
 }
-.vbrand-item.active .later {
+.vbrand-item.active:hover .later {
   display: block;
 }
 .vbrand-item.active:before {
