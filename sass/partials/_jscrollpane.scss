@@ -19,10 +19,10 @@
 .jspVerticalBar
 {
 	position: absolute;
-	top: 1%;
+	top: 0;
 	right: 3px;
 	width: 5px;
-	height: 98%;
+	height: 100%;
 }
 
 .jspHorizontalBar
@@ -60,7 +60,7 @@
 	left: 0;
 	cursor: pointer;
 	@include border-radius(3px);
-	.jspContainer:hover & {
+	.jspScrollable.hovered:hover & {
 		opacity: 1;
 	}
 }

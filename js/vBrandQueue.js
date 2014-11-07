@@ -45,6 +45,7 @@ var player
       $('.vbrand-item').mouseenter(function() {
         $(this).vBrandHoverDrop();
         $('.inqueue').removeClass('outside'); //making sure all drops ares inside
+        queue.addClass('hovered');
         mouseOver = true;
       });
 
@@ -57,6 +58,7 @@ var player
         setTimeout(function() {
           if (!mouseOver) {
             $(this).minimizeDrop();
+            queue.removeClass('hovered');
             jsp.scrollToY(0, true);
           }
         }, 2000);

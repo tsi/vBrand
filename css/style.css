@@ -15,10 +15,10 @@
 
 .jspVerticalBar {
   position: absolute;
-  top: 1%;
+  top: 0;
   right: 3px;
   width: 5px;
-  height: 98%;
+  height: 100%;
 }
 
 .jspHorizontalBar {
@@ -56,7 +56,7 @@
   -webkit-border-radius: 3px;
   border-radius: 3px;
 }
-.jspContainer:hover .jspDrag {
+.jspScrollable.hovered:hover .jspDrag {
   opacity: 1;
 }
 
